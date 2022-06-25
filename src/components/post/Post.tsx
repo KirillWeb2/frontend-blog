@@ -28,7 +28,7 @@ const Post: FC<IPost> = ({ img }) => {
           </span>
         </div>
         <span className="postTitle">
-          <Link to="/post/abc" className="link">
+          <Link to="/post/id" className="link">
             Lorem ipsum dolor sit amet
           </Link>
         </span>

@@ -1,19 +1,53 @@
 import { FC } from 'react'
-import { Link } from "react-router-dom"
+import { useForm } from 'react-hook-form'
+import { Link, Navigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from '../../hooks/ReduxHooks'
+import { useAuth } from '../../hooks/useAuth'
+import { loginThunk } from '../../redux/thunk/AuthThunk'
 import "./login.css"
 
 interface ILogin { }
 
+interface FormData {
+  email: string
+  password: string
+}
+
 const Login: FC<ILogin> = ({ }) => {
+  const { isAuth, isLoading } = useAppSelector(state => state.AuthReducer)
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
+
+  const { login } = useAuth()
+
+  if (isAuth) {
+    return <Navigate to={'/'} />
+  }
+
   return (
     <div className="login">
       <span className="loginTitle">Login</span>
-      <form className="loginForm">
+      <form onSubmit={handleSubmit(login)} className="loginForm">
         <label>Email</label>
-        <input className="loginInput" type="text" placeholder="Enter your email..." />
+        <input
+          className="loginInput"
+          type="email"
+          autoComplete="on"
+          {...register("email", { required: true })}
+          placeholder="Enter your email..."
+        />
+        {errors.email?.type === 'required' && <p className="error">Email is required</p>}
         <label>Password</label>
-        <input className="loginInput" type="password" placeholder="Enter your password..." />
-        <button className="loginButton">Login</button>
+        <input
+          className="loginInput"
+          type="password"
+          autoComplete="on"
+          {...register("password", { required: true, minLength: 6 })}
+          placeholder="Enter your password..."
+        />
+        {errors.password?.type === 'required' && <p className="error">Password is required</p>}
+        {errors.password?.type === 'minLength' && <p className="error">Min length 6</p>}
+        <label>Password</label>
+        <input disabled={isLoading} type="submit" className="loginButton" value="Login" />
       </form>
       <Link to="../register">
         <button className="loginRegisterButton">Register</button>

@@ -1,12 +1,16 @@
 import { FC } from 'react'
 import { Link } from "react-router-dom"
+import { useAppSelector } from '../../hooks/ReduxHooks'
+import { useAuth } from '../../hooks/useAuth'
 import "./topbar.css"
 
 
 interface ITopbar { }
 
 const Topbar: FC<ITopbar> = ({ }) => {
-  const user = false
+  const { isAuth } = useAppSelector(state => state.AuthReducer)
+  const { logout } = useAuth()
+
   return (
     <div className="top">
       <div className="topLeft">
@@ -29,11 +33,11 @@ const Topbar: FC<ITopbar> = ({ }) => {
               WRITE
             </Link>
           </li>
-          {user && <li className="topListItem">LOGOUT</li>}
+          {isAuth && <li onClick={logout} className="topListItem">LOGOUT</li>}
         </ul>
       </div>
       <div className="topRight">
-        {user ? (
+        {isAuth ? (
           <Link className="link" to="/settings">
             <img
               className="topImg"

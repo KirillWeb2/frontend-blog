@@ -7,6 +7,8 @@ import { setupStore } from './redux/store'
 
 import App from './App'
 
+import './index.css'
+
 const root = createRoot(document.getElementById('root') as HTMLElement)
 
 const store = setupStore()
