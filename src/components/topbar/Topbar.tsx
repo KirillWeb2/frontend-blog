@@ -2,13 +2,15 @@ import { FC } from 'react'
 import { Link } from "react-router-dom"
 import { useAppSelector } from '../../hooks/ReduxHooks'
 import { useAuth } from '../../hooks/useAuth'
+import avatar from '../../img/i.webp'
+
 import "./topbar.css"
 
 
 interface ITopbar { }
 
 const Topbar: FC<ITopbar> = ({ }) => {
-  const { isAuth } = useAppSelector(state => state.AuthReducer)
+  const { isAuth, user } = useAppSelector(state => state.AuthReducer)
   const { logout } = useAuth()
 
   return (
@@ -26,8 +28,11 @@ const Topbar: FC<ITopbar> = ({ }) => {
               HOME
             </Link>
           </li>
-          <li className="topListItem">ABOUT</li>
-          <li className="topListItem">CONTACT</li>
+          <li className="topListItem">
+            <Link className="link" to="/users">
+              USERS
+            </Link>
+          </li>
           <li className="topListItem">
             <Link className="link" to="/write">
               WRITE
@@ -41,7 +46,7 @@ const Topbar: FC<ITopbar> = ({ }) => {
           <Link className="link" to="/settings">
             <img
               className="topImg"
-              src="https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+              src={user && user.avatar ? `http://localhost:4444/uploads/${user.avatar}` : avatar}
               alt=""
             />
           </Link>

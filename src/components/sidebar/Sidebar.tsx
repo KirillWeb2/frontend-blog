@@ -1,57 +1,40 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import { Link } from "react-router-dom"
+import { postAPI } from '../../redux/service/PostService'
+
+
 import "./sidebar.css"
 
 
 interface ISidebar { }
 
 const Sidebar: FC<ISidebar> = ({ }) => {
+  const { data: popular } = postAPI.useGetPopularQuery(null)
+  const { data: tags } = postAPI.useGetTagsQuery(null)
+
   return (
     <div className="sidebar">
       <div className="sidebarItem">
-        <span className="sidebarTitle">ABOUT ME</span>
-        <img
-          src="https://themegoods-cdn-pzbycso8wng.stackpathdns.com/grandblog/demo/wp-content/uploads/2015/11/aboutme.jpg"
-          alt=""
-        />
-        <p>
-          Laboris sunt aute cupidatat velit magna velit ullamco dolore mollit
-          amet ex esse.Sunt eu ut nostrud id quis proident.
-        </p>
+        <span className="sidebarTitle">Frequently viewed</span>
+        {popular && popular.map(i =>
+          <Link key={i._id} className='views-item-link' to={`/post/${i._id}`}>
+            <div className='views-item'>
+              <span>{i.title}</span>
+              <span>{i.viewsCount} views</span>
+            </div>
+          </Link>
+        )}
       </div>
       <div className="sidebarItem">
         <span className="sidebarTitle">CATEGORIES</span>
         <ul className="sidebarList">
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Life">
-              Life
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Music">
-              Music
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Sport">
-              Sport
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Style">
-              Style
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Tech">
-              Tech
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=Cinema">
-              Cinema
-            </Link>
-          </li>
+          {tags && tags.map(i =>
+            <li key={i.id} className="sidebarListItem">
+              <Link className="link" to={`/posts?cat=${i.value}`}>
+                {i.value} {i.quantity}
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
       <div className="sidebarItem">
@@ -67,4 +50,4 @@ const Sidebar: FC<ISidebar> = ({ }) => {
   )
 }
 
-export default Sidebar
+export default memo(Sidebar)

@@ -14,6 +14,12 @@
   position: relative;
 }
 
+.alert {
+  margin-left: 150px;
+  margin-bottom: 10px;
+  width: 70vw;
+}
+
 .writeFormGroup {
   margin-left: 150px;
   display: flex;
@@ -56,6 +62,19 @@
   font-size: 20px;
 }
 
+.writeTags {
+  margin-left: 150px;
+}
+
+.writeTags-select {
+  /* width: 70vw; */
+}
+
+.css-2m9kme-MuiFormControl-root {
+  margin: 0;
+  width: 70vw;
+}
+
 .writeSubmit {
   position: absolute;
   top: 20px;
@@ -69,4 +88,9 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+}
+
+
+.editor {
+  width: 70vw;
 }

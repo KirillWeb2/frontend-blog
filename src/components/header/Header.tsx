@@ -1,3 +1,5 @@
+import main from '../../img/main__img.jpeg'
+
 import "./header.css"
 
 
@@ -10,7 +12,7 @@ const Header = () => {
       </div>
       <img
         className="headerImg"
-        src="https://images.pexels.com/photos/1167355/pexels-photo-1167355.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+        src={main}
         alt=""
       />
     </div>

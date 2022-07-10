@@ -5,16 +5,16 @@ import { useRouter } from "./router/router"
 
 const App = () => {
   const { isAuth } = useAppSelector(state => state.AuthReducer)
-  
+
   useAuth()
 
   const router = useRouter(isAuth)
 
   return (
-    <div className="app">
+    <>
       <Topbar />
       {router}
-    </div>
+    </>
   )
 }
 

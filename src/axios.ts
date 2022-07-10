@@ -4,11 +4,14 @@ const instance = axios.create({
     baseURL: "http://localhost:4444"
 })
 
+export function getToken(): string {
+    const token = localStorage.getItem('token')
+    return token ? token : ''
+}
+
 instance.interceptors.request.use((config) => {
     if (config.headers) {
-        // @ts-ignore
-        config.headers.Authorization = window.localStorage.getItem('token') 
-
+        config.headers.Authorization = getToken()
     }
     return config
 })

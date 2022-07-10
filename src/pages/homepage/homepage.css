@@ -1,3 +1,13 @@
 .home {
   display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 auto;
+}
+.homepage__posts {
+  width: 73%;
+}
+
+.sidebar__homepage {
+  width: 25%;
 }

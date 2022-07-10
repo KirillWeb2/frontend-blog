@@ -1,7 +1,5 @@
-import { loginThunk } from './../thunk/AuthThunk';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IUser } from "../../models/user"
-import { getMeThunk, registerThunk } from "../thunk/AuthThunk"
 
 interface IState {
     user: null | IUser
@@ -25,48 +23,11 @@ export const AuthSlice = createSlice({
         setIsAuth(state, action: PayloadAction<boolean>) {
             state.isAuth = action.payload
         },
-    },
-    extraReducers: (builder) => {
-        // REGISTER
-        builder.addCase(registerThunk.pending, (state) => {
-            state.isLoading = true
-        })
-        builder.addCase(registerThunk.fulfilled, (state, action) => {
-            state.user = action.payload.user
-            state.isAuth = true
-            state.isLoading = false
-            localStorage.setItem("token", action.payload.token)
-        })
-        builder.addCase(registerThunk.rejected, (state) => {
-            state.isLoading = false
-        })
-
-        // GET ME
-        builder.addCase(getMeThunk.pending, (state) => {
-            state.isLoading = true
-        })
-        builder.addCase(getMeThunk.fulfilled, (state, action) => {
-            state.user = action.payload
-            state.isAuth = true
-            state.isLoading = false
-        })
-        builder.addCase(getMeThunk.rejected, (state) => {
-            state.isLoading = false
-        })
-
-        // LOGIN
-        builder.addCase(loginThunk.pending, (state) => {
-            state.isLoading = true
-        })
-        builder.addCase(loginThunk.fulfilled, (state, action) => {
-            state.user = action.payload.user
-            state.isAuth = true
-            state.isLoading = false
-            localStorage.setItem("token", action.payload.token)
-        })
-        builder.addCase(loginThunk.rejected, (state) => {
-            state.isLoading = false
-        })
+        setAvatar(state, action: PayloadAction<string>) {
+            if (state.user) {
+                state.user.avatar = action.payload
+            }
+        },
     },
 })
 

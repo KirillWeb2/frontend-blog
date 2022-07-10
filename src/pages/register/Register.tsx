@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { Link, Navigate } from "react-router-dom"
 import { useAppSelector } from "../../hooks/ReduxHooks"
 import { useAuth } from "../../hooks/useAuth"
+
 import "./register.css"
 
 interface IRegister { }
@@ -17,7 +18,7 @@ const Register: FC<IRegister> = ({ }) => {
   const { isAuth, isLoading } = useAppSelector(state => state.AuthReducer)
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
 
-  const { reg } = useAuth()
+  const { reg, RegisterError } = useAuth()
 
   if (isAuth) {
     return <Navigate to={'/'} />
@@ -56,6 +57,7 @@ const Register: FC<IRegister> = ({ }) => {
         {errors.password?.type === 'required' && <p className="error">Password is required</p>}
         {errors.password?.type === 'minLength' && <p className="error">Min length 6</p>}
         <input disabled={isLoading} type="submit" className="registerButton" value="Register" />
+        {RegisterError && <p className="error">Ошибка регистрации, возможно этот email уже занят</p>}
       </form>
       <Link to="../login">
         <button className="registerLoginButton">Login</button>

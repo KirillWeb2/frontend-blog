@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, Navigate } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from '../../hooks/ReduxHooks'
+import { useAppSelector } from '../../hooks/ReduxHooks'
 import { useAuth } from '../../hooks/useAuth'
-import { loginThunk } from '../../redux/thunk/AuthThunk'
+
 import "./login.css"
 
 interface ILogin { }
@@ -17,11 +17,13 @@ const Login: FC<ILogin> = ({ }) => {
   const { isAuth, isLoading } = useAppSelector(state => state.AuthReducer)
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
 
-  const { login } = useAuth()
+  const { login, loginError } = useAuth()
+
 
   if (isAuth) {
     return <Navigate to={'/'} />
   }
+
 
   return (
     <div className="login">
@@ -46,7 +48,7 @@ const Login: FC<ILogin> = ({ }) => {
         />
         {errors.password?.type === 'required' && <p className="error">Password is required</p>}
         {errors.password?.type === 'minLength' && <p className="error">Min length 6</p>}
-        <label>Password</label>
+        {loginError && <p className="error">Ошибка авторизации</p>}
         <input disabled={isLoading} type="submit" className="loginButton" value="Login" />
       </form>
       <Link to="../register">

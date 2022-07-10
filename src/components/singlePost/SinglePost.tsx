@@ -1,67 +1,75 @@
 import { FC } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { useAppSelector } from '../../hooks/ReduxHooks'
+import { IPost } from '../../models/post'
+import { postAPI } from '../../redux/service/PostService'
+import ReactMarkdown from 'react-markdown'
+import Skeleton from './Skeleton'
+
+
 import "./singlePost.css"
 
 
-interface ISinglePost { }
+const SinglePost: FC = () => {
+  const navigate = useNavigate()
+  const { id } = useParams()
 
-const SinglePost: FC<ISinglePost> = ({ }) => {
+  const { user } = useAppSelector(state => state.AuthReducer)
+
+  const { data: activePost } = postAPI.useGetOnePostQuery(id ? id : "")
+  const [deletePost, { }] = postAPI.useDeletePostMutation()
+
+  const remove = (id: string) => {
+    deletePost(id)
+
+    navigate(-1)
+  }
+
+  const changePost = (data: IPost) => navigate(`/write/${data._id}`)
+
+  if (!activePost) {
+    return <Skeleton />
+  }
+
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
         <img
           className="singlePostImg"
-          src="https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+          src={
+            activePost.img
+              ? `http://localhost:4444/uploads/${activePost.img}`
+              : "https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+          }
           alt=""
         />
         <h1 className="singlePostTitle">
-          Lorem ipsum dolor
+          {activePost.title}
           <div className="singlePostEdit">
-            <i className="singlePostIcon far fa-edit"></i>
-            <i className="singlePostIcon far fa-trash-alt"></i>
+          <span>Views: {activePost.viewsCount}</span>
+            {activePost.author && activePost.author._id === user?._id &&
+              <>
+                <i onClick={() => changePost(activePost)} className="singlePostIcon far fa-edit"></i>
+                <i onClick={() => remove(activePost._id)} className="singlePostIcon far fa-trash-alt"></i>
+              </>
+            }
           </div>
         </h1>
         <div className="singlePostInfo">
           <span>
             Author:
             <b className="singlePostAuthor">
-              <Link className="link" to="/posts?username=Safak">
-                Safak
-              </Link>
+              {activePost.author
+                ? <Link className="link" to={`/posts/${activePost.author._id}`}>
+                  {activePost.author.fullName}
+                </Link>
+                : <span className='link'>Account deleted</span>
+              }
             </b>
           </span>
-          <span>1 day ago</span>
+          <span>{activePost.createdAt}</span>
         </div>
-        <p className="singlePostDesc">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste error
-          quibusdam ipsa quis quidem doloribus eos, dolore ea iusto impedit!
-          Voluptatum necessitatibus eum beatae, adipisci voluptas a odit modi
-          eos! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste
-          error quibusdam ipsa quis quidem doloribus eos, dolore ea iusto
-          impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas a
-          odit modi eos! Lorem, ipsum dolor sit amet consectetur adipisicing
-          elit. Iste error quibusdam ipsa quis quidem doloribus eos, dolore ea
-          iusto impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas
-          a odit modi eos! Lorem, ipsum dolor sit amet consectetur adipisicing
-          elit. Iste error quibusdam ipsa quis quidem doloribus eos, dolore ea
-          iusto impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas
-          a odit modi eos! Lorem, ipsum dolor sit amet consectetur adipisicing
-          elit. Iste error quibusdam ipsa quis quidem doloribus eos, dolore ea
-          iusto impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas
-          a odit modi eos!
-          <br />
-          <br />
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste error
-          quibusdam ipsa quis quidem doloribus eos, dolore ea iusto impedit!
-          Voluptatum necessitatibus eum beatae, adipisci voluptas a odit modi
-          eos! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste
-          error quibusdam ipsa quis quidem doloribus eos, dolore ea iusto
-          impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas a
-          odit modi eos! Lorem, ipsum dolor sit amet consectetur adipisicing
-          elit. Iste error quibusdam ipsa quis quidem doloribus eos, dolore ea
-          iusto impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas
-          a odit modi eos! Lorem, ipsum dolor sit amet consectetur.
-        </p>
+        <ReactMarkdown children={activePost.text} />
       </div>
     </div>
   )

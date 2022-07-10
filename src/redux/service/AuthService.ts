@@ -1,22 +1,38 @@
-import { IResLogin, IRegister } from './../../models/auth';
-import axios from "../../axios";
-import { ILogin, IResRegister } from "../../models/auth";
-import { IUser } from '../../models/user';
+import { getToken } from "../../axios"
+import { ILogin } from "../../models/auth"
+import { IUser } from '../../models/user'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 
 
-class AuthService {
-    async login(data: ILogin) {
-        const res = await axios.post<IResLogin>('/api/auth/login', data)
-        return res.data
-    }
-    async register(data: IRegister) {
-        const res = await axios.post<IResRegister>('/api/auth/register', data)
-        return res.data
-    }
-    async me() {
-        const res = await axios.get<IUser>('/api/auth/me')
-        return res.data
-    }
-}
-
-export default new AuthService()
+export const authAPI = createApi({
+    reducerPath: 'authAPI',
+    baseQuery: fetchBaseQuery({ baseUrl: `http://localhost:4444/api/auth` }),
+    tagTypes: ['auth', 'me'],
+    endpoints: (build) => ({
+        getMe: build.query<IUser, any>({
+            query: () => ({
+                url: `/me`,
+                headers: {
+                    authorization: getToken()
+                },
+            }),
+            providesTags: (result) => ['me'],
+        }),
+        login: build.mutation<any, ILogin>({
+            query: (data) => ({
+                url: `/login`,
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ['auth'],
+        }),
+        register: build.mutation({
+            query: (data) => ({
+                url: `/register`,
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ['auth'],
+        }),
+    }),
+})
