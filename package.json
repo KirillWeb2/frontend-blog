@@ -33,6 +33,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "build": "react-scripts build",
     "dev:deploy": "git commit -am 'fix' && git push origin master"
   },
   "eslintConfig": {
