@@ -124,7 +124,7 @@ const Write: FC = () => {
       {isErrorChange && <Alert className='alert' variant="filled" severity="error">Пост не изменён, произошла ошибка</Alert>}
       <img
         className="writeImg"
-        src={img ? `http://localhost:4444/uploads/${img}` : defaultImg}
+        src={img ? `https://blog-backend-124.herokuapp.com/uploads/${img}` : defaultImg}
         alt=""
       />
       <form className="writeForm" onSubmit={submit}>

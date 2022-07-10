@@ -5,7 +5,7 @@ import { IChangeUser, IGetUserAndPost, IUser } from '../../models/user'
 
 export const userAPI = createApi({
     reducerPath: 'userAPI',
-    baseQuery: fetchBaseQuery({ baseUrl: `http://localhost:4444/api/user` }),
+    baseQuery: fetchBaseQuery({ baseUrl: `https://blog-backend-124.herokuapp.com/api/user` }),
     tagTypes: ['user'],
     endpoints: (build) => ({
         getAllUsers: build.query<IUser[], null>({

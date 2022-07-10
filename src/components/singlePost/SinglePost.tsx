@@ -38,7 +38,7 @@ const SinglePost: FC = () => {
           className="singlePostImg"
           src={
             activePost.img
-              ? `http://localhost:4444/uploads/${activePost.img}`
+              ? `https://blog-backend-124.herokuapp.com/uploads/${activePost.img}`
               : "https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
           }
           alt=""

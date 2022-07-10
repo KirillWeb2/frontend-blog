@@ -6,7 +6,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 
 export const authAPI = createApi({
     reducerPath: 'authAPI',
-    baseQuery: fetchBaseQuery({ baseUrl: `http://localhost:4444/api/auth` }),
+    baseQuery: fetchBaseQuery({ baseUrl: `https://blog-backend-124.herokuapp.com/api/auth` }),
     tagTypes: ['auth', 'me'],
     endpoints: (build) => ({
         getMe: build.query<IUser, any>({

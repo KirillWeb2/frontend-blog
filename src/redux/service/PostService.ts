@@ -8,7 +8,7 @@ import { getToken } from '../../axios'
 
 export const postAPI = createApi({
     reducerPath: 'postAPI',
-    baseQuery: fetchBaseQuery({ baseUrl: `http://localhost:4444/api/post` }),
+    baseQuery: fetchBaseQuery({ baseUrl: `https://blog-backend-124.herokuapp.com/api/post` }),
     tagTypes: ['posts', 'tag', 'popular'],
     endpoints: (build) => ({
         getAllPosts: build.query<IPost[], any>({

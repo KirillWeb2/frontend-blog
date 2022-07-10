@@ -62,7 +62,7 @@ const Settings: FC = () => {
           <label>Profile Picture</label>
           <div className="settingsPP">
             <img
-              src={user.avatar ? `http://localhost:4444/uploads/${user.avatar}` : avatar}
+              src={user.avatar ? `https://blog-backend-124.herokuapp.com/uploads/${user.avatar}` : avatar}
               alt=""
             />
             <label htmlFor="fileInput">

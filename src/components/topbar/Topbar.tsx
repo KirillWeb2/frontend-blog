@@ -46,7 +46,7 @@ const Topbar: FC<ITopbar> = ({ }) => {
           <Link className="link" to="/settings">
             <img
               className="topImg"
-              src={user && user.avatar ? `http://localhost:4444/uploads/${user.avatar}` : avatar}
+              src={user && user.avatar ? `https://blog-backend-124.herokuapp.com/uploads/${user.avatar}` : avatar}
               alt=""
             />
           </Link>

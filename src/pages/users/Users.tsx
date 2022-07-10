@@ -21,7 +21,7 @@ const Users: FC = () => {
                 <Link key={i._id} to={`/posts/${i._id}`}>
                     <div className='users-item'>
                         <div className='users-item-img'>
-                            <img src={i.avatar ? `http://localhost:4444/uploads/${i.avatar}` : avatar} alt="" />
+                            <img src={i.avatar ? `https://blog-backend-124.herokuapp.com/uploads/${i.avatar}` : avatar} alt="" />
                         </div>
                         <p className='users-item-name'>
                             {i.fullName}

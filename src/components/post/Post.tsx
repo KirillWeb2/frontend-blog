@@ -13,7 +13,7 @@ const Post: FC<IPostComponent> = ({ post }) => {
     <div className="post">
       <img
         className="postImg"
-        src={`http://localhost:4444/uploads/${post.img}`}
+        src={`https://blog-backend-124.herokuapp.com/uploads/${post.img}`}
         alt=""
       />
       <div className="postInfo">

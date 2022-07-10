@@ -19,7 +19,7 @@ const UserPosts: FC = () => {
         <div className='posts-root'>
             <div className="posts-top">
                 <div className="posts-top-img">
-                    <img src={data.user.avatar ? `http://localhost:4444/uploads/${data.user.avatar}` : avatar} alt="" />
+                    <img src={data.user.avatar ? `https://blog-backend-124.herokuapp.com/uploads/${data.user.avatar}` : avatar} alt="" />
                 </div>
                 <div className="posts-top-name">
                     <p>{data.user.fullName}</p>
